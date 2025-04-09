@@ -5,7 +5,7 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/quickfix-feedst
 
 Home: http://www.quickfixengine.org
 
-Package license: QuickFIX Software BSD-3-Clause Variant version 1.0
+Package license: LicenseRef-QuickFIX-Software-BSD-3-Clause-Variant-version-1.0
 
 Summary: FIX (Financial Information eXchange) protocol implementation
 
