@@ -1,5 +1,5 @@
 {% set name = "quickfix" %}
-{% set version = "1.15.1" %}
+{% set version = "1.16.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: e3564ad2dd155892dc74496d6f4db1794bd8f9f74450ccbb45571ffaa2815da2
+  sha256: 825aceb72cfd69c30fbbf5b380b66f464abe1fe3188374f13d8c9987dd8eb4e9
 
 build:
-  number: 6
+  number: 0
   script: "{{ PYTHON }} -m pip install . -vv"
   skip: true  # [win]
 
