@@ -1,23 +1,26 @@
-{% set name = "quickfix" %}
-{% set version = "1.16.0" %}
+schema_version: 1
+
+context:
+  name: quickfix
+  version: "1.16.0"
 
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: ${{ name|lower }}
+  version: ${{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
   sha256: 825aceb72cfd69c30fbbf5b380b66f464abe1fe3188374f13d8c9987dd8eb4e9
 
 build:
-  number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
-  skip: true  # [win]
+  number: 1
+  skip: win
+  script: ${{ PYTHON }} -m pip install . -vv
 
 requirements:
   build:
-    - {{ compiler('cxx') }}
-    - {{ stdlib('c') }}
+    - ${{ compiler('cxx') }}
+    - ${{ stdlib('c') }}
   host:
     - python
     - pip
@@ -25,25 +28,25 @@ requirements:
   run:
     - python
 
-test:
-  imports:
-    - quickfix
+tests:
+  - python:
+      imports:
+        - quickfix
+      pip_check: false
 
 about:
-  home: http://www.quickfixengine.org
   license: LicenseRef-QuickFIX-Software-BSD-3-Clause-Variant-version-1.0
-  license_family: BSD
   license_file: LICENSE
-  summary: 'FIX (Financial Information eXchange) protocol implementation'
-
+  summary: FIX (Financial Information eXchange) protocol implementation
   description: |
     The Financial Information Exchange (FIX) Protocol is a message standard
     developed to facilitate the electronic exchange of information
     related to securities transactions. It is intended for use between
     trading partners wishing to automate communications.
     QuickFIX is a free and open source implementation of the FIX protocol.
-  doc_url: http://www.quickfixengine.org/quickfix/doc/html/
-  dev_url: https://github.com/quickfix/quickfix
+  homepage: http://www.quickfixengine.org
+  repository: https://github.com/quickfix/quickfix
+  documentation: http://www.quickfixengine.org/quickfix/doc/html/
 
 extra:
   recipe-maintainers:
