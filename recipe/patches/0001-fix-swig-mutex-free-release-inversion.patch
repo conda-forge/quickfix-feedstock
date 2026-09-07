@@ -1,0 +1,35 @@
+Fix inverted PyThread_free_lock / PyThread_release_lock in Swig::Mutex
+
+QuickfixPython.cpp is generated with SWIG 4.2.1, which swaps these two calls
+in the director Mutex class: the destructor releases the lock instead of
+freeing it, and Unlock() frees it instead of releasing it.
+
+Python 3.15 reimplements PyThread_type_lock on top of PyMutex, so releasing
+an unlocked lock is now fatal. The static Director::swig_mutex_own destructor
+aborts at interpreter shutdown with:
+
+    Fatal Python error: PyMutex_Unlock: unlocking mutex that is not locked
+
+Introduced in SWIG 21f1c923c, fixed upstream in SWIG 4.4.0 via 892be2b802
+(https://github.com/swig/swig/commit/892be2b8024d391dbc78028a2e99b7800db2ea99).
+
+--- a/C++/QuickfixPython.cpp
++++ b/C++/QuickfixPython.cpp
+@@ -3446,7 +3446,7 @@
+        }
+ 
+        ~Mutex() {
+-           PyThread_release_lock(mutex_);
++           PyThread_free_lock(mutex_);
+        }
+ 
+    private:
+@@ -3455,7 +3455,7 @@
+        }
+ 
+        void Unlock() {
+-           PyThread_free_lock(mutex_);
++           PyThread_release_lock(mutex_);
+        }
+ 
+        PyThread_type_lock mutex_;

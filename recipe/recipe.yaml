@@ -11,9 +11,11 @@ package:
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
   sha256: 825aceb72cfd69c30fbbf5b380b66f464abe1fe3188374f13d8c9987dd8eb4e9
+  patches:
+    - patches/0001-fix-swig-mutex-free-release-inversion.patch
 
 build:
-  number: 1
+  number: 2
   skip: win
   script: ${{ PYTHON }} -m pip install . -vv
 
